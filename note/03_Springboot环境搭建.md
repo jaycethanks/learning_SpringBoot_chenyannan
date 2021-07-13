@@ -87,6 +87,8 @@ test 目录下缺少了resources目录，手动添加(right click->new->Director
 
 ##### 配置父项目继承
 
+> 注意该配置并不会引入任何依赖，仅用于版本的管理。
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -213,7 +215,7 @@ public class Application {
 
 ```
 
-还需要显示的启动Springboot应用
+还需要显式的启动Springboot应用
 
 ```java
 package com.jayce;
@@ -343,4 +345,50 @@ server:
 
 
 此时测试地址为： http://localhost:8081/springboot_day1/hello
+
+
+
+**附： 深入思考 : 显式启动springboot应用时的传参是什么？**
+
+```java
+@SpringBootApplication
+public class SpringbootDay1Application {
+    public static void main(String[] args) {
+        //启动springboot应用的方法， 参数1： 指定入口类的类对象 2.main函数的参数
+        SpringApplication.run(SpringbootDay1Application.class,args);
+    }
+}
+```
+
+`SpringApplication.run()` 方法的第一个参数是 入口类的类对象，这里大致了解到就行，下面来讨论一下第二个参数，为什么传main 函数的参数 `args` ?
+
+
+
+*先决问题： main函数的参数穿的是什么？*
+
+答： 传递的是调试参数，用于虚拟机启动时的配置参数。 
+
+这里的参数传递，可以通过IDEA工具传递：
+
+1.
+
+![image-20210713232016646](03_Springboot环境搭建.assets/image-20210713232016646.png)
+
+2.
+
+![image-20210713232111537](03_Springboot环境搭建.assets/image-20210713232111537.png)
+
+3.
+
+![image-20210713232215391](03_Springboot环境搭建.assets/image-20210713232215391.png)
+
+
+
+我们尝试修改启动端口：
+
+>在配置文件中，我们目前在上面已经配置过了启动端口是8081 , 这里我们在项目后，将项目启动端口动态的修改掉。 
+
+![image-20210713232403838](03_Springboot环境搭建.assets/image-20210713232403838.png)
+
+![image-20210713232455009](03_Springboot环境搭建.assets/image-20210713232455009.png)
 
